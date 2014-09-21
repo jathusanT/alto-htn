@@ -1,7 +1,6 @@
 package com.jathusan.sheetmusic;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 
 import java.util.ArrayList;
 

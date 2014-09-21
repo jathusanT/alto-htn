@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ public class CompositionArrayAdapter extends ArrayAdapter<Composition> {
 
     int resource;
     Context ctx;
+    private int lastPosition = -1;
 
     public CompositionArrayAdapter(Context context, int resource, List<Composition> items) {
         super(context, resource, items);
@@ -67,6 +70,10 @@ public class CompositionArrayAdapter extends ArrayAdapter<Composition> {
         subtitle.setText("Year: " + composition.getDate()
                          + " | Key: " + composition.getKey()
                          + " | Style: " + composition.getStyle());
+
+        Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        view.startAnimation(animation);
+        lastPosition = position;
 
         return view;
     }

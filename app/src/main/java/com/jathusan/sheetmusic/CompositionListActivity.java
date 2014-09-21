@@ -9,15 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class CompositionListActivity extends AltoActivity {
@@ -26,6 +20,7 @@ public class CompositionListActivity extends AltoActivity {
     private ListView listView;
     private CompositionArrayAdapter compositionArrayAdapter;
     private TextView tempTV;
+    private String artist = "beethoven";
     private ArrayList<Composition> compositions = new ArrayList<Composition>();
 
     @Override
@@ -56,21 +51,7 @@ public class CompositionListActivity extends AltoActivity {
 
             try {
 
-                Log.i("Composition Pull Task", "Starting background task..");
-
-                HttpClient client = new DefaultHttpClient();
-                HttpGet request = new HttpGet("http://10.21.91.255:8000/api/search?query=mozart");
-
-                HttpResponse response = client.execute(request);
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                StringBuilder builder = new StringBuilder();
-
-                for (String line = null; (line = br.readLine()) != null;) {
-                    builder.append(line).append("\n");
-                }
-
-                String bufferResponse = builder.toString();
+                String bufferResponse = AltoHttpClient.getBufferResponse("http://10.21.91.255:8000/api/search?query=" + artist);
 
                 if (bufferResponse != null) {
 

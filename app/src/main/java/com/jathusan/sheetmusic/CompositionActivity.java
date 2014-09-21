@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 
 import org.json.JSONArray;
@@ -17,6 +19,8 @@ public class CompositionActivity extends AltoActivity {
     private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
     private int idValue = -1;
     private ImageView image;
+    private ImageSwitcher imageSwitcher;
+    int currPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,17 @@ public class CompositionActivity extends AltoActivity {
         setContentView(R.layout.activity_composition);
 
         image = (ImageView) findViewById(R.id.image);
+        image.setScaleType(ImageView.ScaleType.CENTER);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image.setImageBitmap(images.get(currPage));
+                if (currPage < images.size() - 1) {
+                    currPage++;
+                }
+            }
+        });
 
         if (getIntent().getExtras() != null){
             idValue = getIntent().getExtras().getInt("id_value", -1);
@@ -63,9 +78,11 @@ public class CompositionActivity extends AltoActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (images.get(0)!=null) {
-                image.setImageBitmap(images.get(0));
+                image.setImageBitmap(images.get(currPage));
+                currPage ++;
             }
         }
+
     }
 
 
